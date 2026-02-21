@@ -3,7 +3,7 @@ from __future__ import annotations
 import os
 from werkzeug.security import generate_password_hash
 from extensions import db
-from models import User, Challenge
+from models import User, Challenge, Submission
 
 # ⚠️ 레포 공개 시 실제 플래그를 그대로 올리기 싫으면:
 # - 여기 값을 환경변수로 받아오게 하거나,
@@ -79,6 +79,28 @@ def run_seed() -> None:
         points=300,
         flag_plain=flags[2],
     )
+
+        # 3) Step2: Flag1이 보이도록 "user2의 제출 1개"를 seed로 생성
+    # - Warm-up(flag1)의 정답 제출이 user2에게 이미 기록되어 있도록 배치
+    user2 = User.query.filter_by(username="user2").one()
+    warmup = Challenge.query.filter_by(title="Warm-up").one()
+
+    flag1_plain = os.getenv("FLAG_1", DEFAULT_FLAGS[0])
+
+    already = Submission.query.filter_by(
+        user_id=user2.id,
+        challenge_id=warmup.id,
+        is_correct=True,
+    ).first()
+
+    if already is None:
+        sub = Submission(
+            user_id=user2.id,
+            challenge_id=warmup.id,
+            submitted_answer=flag1_plain,   # "제출 상세"에서 보이게끔 심는 포인트
+            is_correct=True,
+        )
+        db.session.add(sub)
 
     db.session.commit()
     print("[seed] done: users/admin + 3 challenges created/updated.")
