@@ -1,3 +1,4 @@
+* CTF용 취약 구현 포함, 실서비스 사용 금지
 Setup (Windows PowerShell)
 
 1) Create venv and install

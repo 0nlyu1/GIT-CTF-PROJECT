@@ -4,15 +4,42 @@
 
 <ul>
   <li>ID: {{ sub.id }}</li>
-  <li>유저ID: {{ sub.user_id }}</li>
   <li>문제ID: {{ sub.challenge_id }}</li>
   <li>정답여부: {{ "O" if sub.is_correct else "X" }}</li>
   <li>시간: {{ sub.created_at }}</li>
 </ul>
 
 <div style="margin-top:12px; border:1px solid #ddd; padding:12px; border-radius:8px;">
-  <b>제출값</b><br/>
+  <b>내 제출값</b><br/>
   <div style="white-space: pre-wrap;">{{ sub.submitted_answer }}</div>
 </div>
+
+<hr style="margin: 16px 0;"/>
+
+{% if ctf_mode %}
+  <h4>Stage1 Unlock (CTF Mode)</h4>
+  <p style="margin: 6px 0;">
+    키를 맞추면 "Stage1 Leak" 섹션이 열립니다.
+  </p>
+
+  <form method="get" action="" style="margin: 8px 0;">
+    <input name="key" placeholder="STAGE1_KEY 입력" style="padding:8px; width: 280px;" />
+    <button type="submit" style="padding:8px 12px;">Unlock</button>
+  </form>
+
+  {% if stage1_unlocked %}
+    <div style="margin-top:12px; border:1px solid #ddd; padding:12px; border-radius:8px;">
+      <b>Stage1 Leak</b><br/>
+      {% if leaked %}
+        <p style="margin: 8px 0;">
+          (샘플) user2의 Warm-up 정답 제출이 공개되었습니다.
+        </p>
+        <div style="white-space: pre-wrap;">{{ leaked.submitted_answer }}</div>
+      {% else %}
+        <p>leak 대상 데이터가 없습니다. (seed에 user2 Warm-up 제출이 있어야 함)</p>
+      {% endif %}
+    </div>
+  {% endif %}
+{% endif %}
 
 {% endblock %}

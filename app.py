@@ -24,6 +24,11 @@ def create_app() -> Flask:
     app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL", "sqlite:///ctf.db")
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
+
+    # ---- CTF Mode ----
+    app.config["CTF_MODE"] = os.getenv("CTF_MODE", "0").lower() in ("1", "true", "yes", "on")
+    app.config["STAGE1_KEY"] = os.getenv("STAGE1_KEY", "stage1-change-me")
+    
     db.init_app(app)
     migrate.init_app(app, db)
 
