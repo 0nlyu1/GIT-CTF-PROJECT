@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MJSEC Mini CTF</title>
+</head>
+<body>
+  <div style="max-width: 900px; margin: 24px auto; font-family: system-ui;">
+    <header style="display:flex; gap:12px; align-items:center; justify-content:space-between;">
+      <h2 style="margin:0;">MJSEC Mini CTF</h2>
+      <nav style="display:flex; gap:10px;">
+        <a href="/challenges">문제</a>
+        <a href="/ranking">랭킹</a>
+        <a href="/my/submissions">내 제출</a>
+        <a href="/logout">로그아웃</a>
+      </nav>
+    </header>
+
+    <hr />
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+          {% for m in messages %}
+            <li>{{ m }}</li>
+          {% endfor %}
+        </ul>
+        <hr />
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+  </div>
+</body>
+</html>

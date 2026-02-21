@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login - MJSEC Mini CTF</title>
+</head>
+<body>
+  <div style="max-width: 420px; margin: 60px auto; font-family: system-ui;">
+    <h2>로그인</h2>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+          {% for m in messages %}
+            <li>{{ m }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <form method="post" action="/login">
+      <div style="margin-bottom:10px;">
+        <label>Username</label><br/>
+        <input name="username" style="width:100%; padding:8px;" />
+      </div>
+      <div style="margin-bottom:10px;">
+        <label>Password</label><br/>
+        <input name="password" type="password" style="width:100%; padding:8px;" />
+      </div>
+      <button type="submit" style="padding:8px 12px;">Login</button>
+    </form>
+
+    <p style="margin-top:16px; color:#555;">
+      테스트 계정: user1/user1234, admin/admin1234
+    </p>
+  </div>
+</body>
+</html>

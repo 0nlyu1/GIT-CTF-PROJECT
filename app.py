@@ -1,4 +1,5 @@
 from __future__ import annotations
+from routes.auth import bp as auth_bp
 
 import os
 from flask import Flask, jsonify
@@ -38,6 +39,8 @@ def create_app() -> Flask:
         rows = get_ranking(limit=100)
         return jsonify([row.__dict__ for row in rows])
 
+    # ---- Register Blueprints ----
+    app.register_blueprint(auth_bp)
     return app
 
 
