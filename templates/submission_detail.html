@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>제출 상세</h3>
+
+<ul>
+  <li>ID: {{ sub.id }}</li>
+  <li>유저ID: {{ sub.user_id }}</li>
+  <li>문제ID: {{ sub.challenge_id }}</li>
+  <li>정답여부: {{ "O" if sub.is_correct else "X" }}</li>
+  <li>시간: {{ sub.created_at }}</li>
+</ul>
+
+<div style="margin-top:12px; border:1px solid #ddd; padding:12px; border-radius:8px;">
+  <b>제출값</b><br/>
+  <div style="white-space: pre-wrap;">{{ sub.submitted_answer }}</div>
+</div>
+
+{% endblock %}

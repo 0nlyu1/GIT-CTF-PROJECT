@@ -2,6 +2,16 @@
 {% block content %}
 <h3>랭킹 (R1: 문제별 최초 정답 1회만 인정)</h3>
 
+<form method="get" action="/ranking" style="margin: 12px 0;">
+  <input name="q" value="{{ q or '' }}" placeholder="검색(유저/닉네임)" style="padding:8px; width:220px;" />
+  <select name="sort" style="padding:8px;">
+    <option value="score" {% if sort=='score' %}selected{% endif %}>점수순</option>
+    <option value="last" {% if sort=='last' %}selected{% endif %}>마지막 정답 빠른순(타이브레이커)</option>
+    <option value="user" {% if sort=='user' %}selected{% endif %}>유저명순</option>
+  </select>
+  <button type="submit" style="padding:8px 12px;">적용</button>
+</form>
+
 <table border="1" cellpadding="8" cellspacing="0">
   <tr>
     <th>#</th>

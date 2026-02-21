@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>프로필</h3>
+
+<p>
+  Username: <b>{{ user.username }}</b><br/>
+  Role: <b>{{ user.role }}</b>
+</p>
+
+<form method="post" action="/profile" style="margin-top:12px;">
+  <label>닉네임</label><br/>
+  <input name="nickname" value="{{ user.nickname or '' }}" style="width: 360px; padding:8px;" />
+  <button type="submit" style="padding:8px 12px;">저장</button>
+</form>
+
+{% endblock %}
