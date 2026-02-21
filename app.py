@@ -1,5 +1,7 @@
 from __future__ import annotations
 from routes.auth import bp as auth_bp
+from routes.challenges import bp as challenges_bp
+from routes.pages import bp as pages_bp
 
 import os
 from flask import Flask, jsonify
@@ -33,7 +35,7 @@ def create_app() -> Flask:
     def health():
         return {"ok": True}
 
-    @app.get("/ranking")
+    @app.get("/api/ranking")
     def ranking_endpoint():
         # 나중에 템플릿으로 바꾸면 됨. 지금은 JSON으로 확인만.
         rows = get_ranking(limit=100)
@@ -41,7 +43,8 @@ def create_app() -> Flask:
 
     # ---- Register Blueprints ----
     app.register_blueprint(auth_bp)
+    app.register_blueprint(challenges_bp)
+    app.register_blueprint(pages_bp)
     return app
-
 
 app = create_app()

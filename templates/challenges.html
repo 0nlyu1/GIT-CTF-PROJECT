@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>문제 목록</h3>
+<ul>
+  {% for ch in challenges %}
+    <li>
+      <a href="/challenges/{{ ch.id }}">{{ ch.title }}</a>
+      - {{ ch.points }} pts
+    </li>
+  {% endfor %}
+</ul>
+{% endblock %}

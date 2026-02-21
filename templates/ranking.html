@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>랭킹 (R1: 문제별 최초 정답 1회만 인정)</h3>
+
+<table border="1" cellpadding="8" cellspacing="0">
+  <tr>
+    <th>#</th>
+    <th>User</th>
+    <th>Nickname</th>
+    <th>Total</th>
+    <th>Last Solve At</th>
+  </tr>
+  {% for r in rows %}
+    <tr>
+      <td>{{ loop.index }}</td>
+      <td>{{ r.username }}</td>
+      <td>{{ r.nickname or "-" }}</td>
+      <td>{{ r.total_points }}</td>
+      <td>{{ r.last_solve_at or "-" }}</td>
+    </tr>
+  {% endfor %}
+</table>
+{% endblock %}

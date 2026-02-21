@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>내 제출 기록</h3>
+
+<table border="1" cellpadding="8" cellspacing="0">
+  <tr>
+    <th>시간</th>
+    <th>문제ID</th>
+    <th>정답여부</th>
+  </tr>
+  {% for s in subs %}
+    <tr>
+      <td>{{ s.created_at }}</td>
+      <td>{{ s.challenge_id }}</td>
+      <td>{{ "O" if s.is_correct else "X" }}</td>
+    </tr>
+  {% endfor %}
+</table>
+{% endblock %}

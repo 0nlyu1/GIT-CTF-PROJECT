@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>{{ ch.title }} ({{ ch.points }} pts)</h3>
+
+<div style="white-space: pre-wrap; border:1px solid #ddd; padding:12px; border-radius:8px;">
+  {{ ch.description }}
+</div>
+
+<h4 style="margin-top:18px;">제출</h4>
+<form method="post" action="/challenges/{{ ch.id }}/submit">
+  <input name="answer" style="width: 100%; padding: 10px;" placeholder="flag{...}" />
+  <button type="submit" style="margin-top:10px; padding:8px 12px;">Submit</button>
+</form>
+
+{% endblock %}
