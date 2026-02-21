@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>관리자 페이지</h3>
+<p>안녕하세요, {{ user.username }} (role={{ user.role }})</p>
+
+<div style="border:1px solid #ddd; padding:12px; border-radius:8px;">
+  <p>여기는 관리자만 접근 가능한 페이지입니다.</p>
+  <p>나중에 문제 등록/수정 기능을 붙일 예정.</p>
+</div>
+{% endblock %}

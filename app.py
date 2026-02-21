@@ -1,16 +1,19 @@
 from __future__ import annotations
-from routes.auth import bp as auth_bp
-from routes.challenges import bp as challenges_bp
-from routes.pages import bp as pages_bp
 
 import os
-from flask import Flask, jsonify
+from flask import Flask, jsonify, redirect, url_for
 from dotenv import load_dotenv
 
 from extensions import db, migrate
 from models import User, Challenge, Submission
 from seed import run_seed
 from ranking import get_ranking
+from routes.utils import current_user
+
+from routes.auth import bp as auth_bp
+from routes.challenges import bp as challenges_bp
+from routes.pages import bp as pages_bp
+from routes.admin import bp as admin_bp
 
 
 def create_app() -> Flask:
@@ -24,10 +27,19 @@ def create_app() -> Flask:
     db.init_app(app)
     migrate.init_app(app, db)
 
+    # ------------------------
+    # 홈 라우트 (여기!)
+    # ------------------------
+    @app.get("/")
+    def home():
+        user = current_user()
+        if user is None:
+            return redirect(url_for("auth.login_form"))
+        return redirect(url_for("challenges.list_challenges"))
+
     # ---- CLI Commands ----
     @app.cli.command("seed")
     def seed_command():
-        """DB에 초기 데이터(admin/user/challenges) 넣기"""
         with app.app_context():
             run_seed()
 
@@ -37,7 +49,6 @@ def create_app() -> Flask:
 
     @app.get("/api/ranking")
     def ranking_endpoint():
-        # 나중에 템플릿으로 바꾸면 됨. 지금은 JSON으로 확인만.
         rows = get_ranking(limit=100)
         return jsonify([row.__dict__ for row in rows])
 
@@ -45,6 +56,9 @@ def create_app() -> Flask:
     app.register_blueprint(auth_bp)
     app.register_blueprint(challenges_bp)
     app.register_blueprint(pages_bp)
+    app.register_blueprint(admin_bp)
+
     return app
+
 
 app = create_app()
