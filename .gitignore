@@ -1,0 +1,19 @@
+# venv
+.venv/
+
+# python
+__pycache__/
+*.pyc
+
+# env / secrets
+.env
+
+# local db
+*.db
+
+# migrations cache
+migrations/__pycache__/
+
+# IDE
+.vscode/
+.idea/
