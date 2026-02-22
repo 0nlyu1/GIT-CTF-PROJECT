@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, g, request, redirect, url_for, flash, current_app
 from routes.utils import login_required
 from models import Submission, Challenge, User
-
+from extensions import db
 from ranking import get_ranking
 
 bp = Blueprint("pages", __name__)
@@ -72,3 +72,21 @@ def submission_detail(submission_id: int):
 def ranking_page():
     rows = get_ranking(limit=100)
     return render_template("ranking.html", rows=rows, user=g.user)
+
+@bp.route("/profile", methods=["GET", "POST"])
+@login_required
+def profile():
+    if request.method == "POST":
+        nickname = (request.form.get("nickname") or "").strip()
+
+        # (선택) 너무 긴 값 방지: DB 컬럼이 String(80)
+        if len(nickname) > 80:
+            flash("닉네임은 80자 이내로 해줘.")
+            return redirect(url_for("pages.profile"))
+
+        g.user.nickname = nickname if nickname != "" else None
+        db.session.commit()
+        flash("저장됐어.")
+        return redirect(url_for("pages.profile"))
+
+    return render_template("profile.html", user=g.user)

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Review Result</h3>
+
+<p>
+  대상 유저: <b>{{ user.username }}</b><br/>
+  닉네임: <b>{{ user.nickname or "-" }}</b>
+</p>
+
+{% if unlocked %}
+  <div style="border:1px solid #ddd; padding:12px; border-radius:8px;">
+    <b>Stage2 Unlocked ✅</b><br/>
+    <div style="white-space: pre-wrap;">{{ stage2_hint }}</div>
+  </div>
+{% else %}
+  <div style="border:1px solid #ddd; padding:12px; border-radius:8px;">
+    <b>Not unlocked ❌</b><br/>
+    <p>조건을 만족하는 토큰이 닉네임에 없습니다.</p>
+  </div>
+{% endif %}
+
+<p style="margin-top:12px;">
+  <a href="/admin/review">← back</a>
+</p>
+{% endblock %}

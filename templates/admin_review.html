@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Admin Review (Stage2)</h3>
+
+{% if not ctf_mode %}
+  <p style="color:#b00;">CTF_MODE가 꺼져있습니다. .env에서 CTF_MODE=1로 켜세요.</p>
+{% endif %}
+
+<p>유저 닉네임을 확인하고 “리뷰”를 누르면 Stage2 조건에 따라 힌트가 열립니다.</p>
+
+<table border="1" cellpadding="8" cellspacing="0">
+  <tr>
+    <th>ID</th>
+    <th>Username</th>
+    <th>Nickname</th>
+    <th>Action</th>
+  </tr>
+  {% for u in users %}
+  <tr>
+    <td>{{ u.id }}</td>
+    <td>{{ u.username }}</td>
+    <td>{{ u.nickname or "-" }}</td>
+    <td>
+      <form method="post" action="/admin/review/{{ u.id }}">
+        <button type="submit">리뷰</button>
+      </form>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+
+{% endblock %}
