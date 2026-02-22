@@ -9,9 +9,9 @@ from models import User, Challenge, Submission
 # - 여기 값을 환경변수로 받아오게 하거나,
 # - seed 실행 전에만 로컬에서 넣고 gitignore 처리.
 DEFAULT_FLAGS = [
-    "flag{mjsec_demo_1}",
-    "flag{mjsec_demo_2}",
-    "flag{mjsec_demo_3}",
+    "flag{stage1_idor_exposed}",
+    "flag{stage2_admin_review_hint}",
+    "flag{stage3_query_unlock_secret}",
 ]
 
 
@@ -63,7 +63,7 @@ def run_seed() -> None:
 
     upsert_challenge(
         title="Warm-up",
-        description="첫 번째 문제. 간단한 기능/페이지에서 플래그를 찾으세요.",
+        description="첫 번째 문제. 제출 상세 페이지의 Stage1 Unlock을 활성화하세요. 힌트: 키는 STAGE1_KEY이며 'stage1-'로 시작합니다.",
         points=100,
         flag_plain=flags[0],
     )
@@ -80,7 +80,7 @@ def run_seed() -> None:
         flag_plain=flags[2],
     )
 
-        # 3) Step2: Flag1이 보이도록 "user2의 제출 1개"를 seed로 생성
+    # 3) Step2: Flag1이 보이도록 "user2의 제출 1개"를 seed로 생성
     # - Warm-up(flag1)의 정답 제출이 user2에게 이미 기록되어 있도록 배치
     user2 = User.query.filter_by(username="user2").one()
     warmup = Challenge.query.filter_by(title="Warm-up").one()

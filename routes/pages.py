@@ -29,8 +29,10 @@ def submission_detail(submission_id: int):
     """
     sub = Submission.query.get_or_404(submission_id)
 
-    # 기본 권한: 본인 제출만 열람 가능
-    if sub.user_id != g.user.id and g.user.role != "admin":
+    # 기본 권한: 본인 제출만 열람 가능(CTF_MODE=0일 때만 강제)
+    ctf_mode = bool(current_app.config.get("CTF_MODE", False))
+
+    if (not ctf_mode) and (sub.user_id != g.user.id and g.user.role != "admin"):
         flash("권한이 없습니다.")
         return redirect(url_for("pages.my_submissions"))
 
