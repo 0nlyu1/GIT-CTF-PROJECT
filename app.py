@@ -28,6 +28,8 @@ def create_app() -> Flask:
     # ---- CTF Mode ----
     app.config["CTF_MODE"] = os.getenv("CTF_MODE", "0").lower() in ("1", "true", "yes", "on")
     app.config["STAGE1_KEY"] = os.getenv("STAGE1_KEY", "stage1-change-me")
+    app.config["STAGE3_TOKEN"] = os.getenv("STAGE3_TOKEN", "stage3-token-change-me")
+    app.config["STAGE3_HINT"] = os.getenv("STAGE3_HINT", "hint: go /admin/secret")
     
     db.init_app(app)
     migrate.init_app(app, db)

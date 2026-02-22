@@ -70,8 +70,34 @@ def submission_detail(submission_id: int):
 @bp.get("/ranking")
 @login_required
 def ranking_page():
-    rows = get_ranking(limit=100)
-    return render_template("ranking.html", rows=rows, user=g.user)
+    q = request.args.get("q")
+    sort = request.args.get("sort", "score")
+
+    rows = get_ranking(limit=100, q=q, sort=sort)
+
+    # ---- Stage3: intended "query weakness" (CTF-safe) ----
+    # 취지: 정렬 파라미터를 개발자가 "편의 기능"으로 파싱하다가 숨은 지시어가 먹히는 설계 실수
+    ctf_mode = bool(current_app.config.get("CTF_MODE", False))
+    stage3_token = str(current_app.config.get("STAGE3_TOKEN", "stage3-token-change-me"))
+    stage3_hint = str(current_app.config.get("STAGE3_HINT", "hint: set STAGE3_HINT in .env"))
+
+    stage3_unlocked = False
+    if ctf_mode:
+        # 예: sort=score|reveal:<token>
+        raw = (sort or "")
+        if "|reveal:" in raw:
+            provided = raw.split("|reveal:", 1)[1].strip()
+            stage3_unlocked = (provided != "" and provided == stage3_token)
+
+    return render_template(
+        "ranking.html",
+        rows=rows,
+        user=g.user,
+        q=q,
+        sort=sort,
+        stage3_unlocked=stage3_unlocked,
+        stage3_hint=stage3_hint if stage3_unlocked else None,
+    )
 
 @bp.route("/profile", methods=["GET", "POST"])
 @login_required

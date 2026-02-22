@@ -29,5 +29,14 @@
       <td>{{ r.last_solve_at or "-" }}</td>
     </tr>
   {% endfor %}
+
+  {% if stage3_unlocked %}
+  <div style="margin:12px 0; padding:12px; border:1px solid #ccc; border-radius:8px;">
+    <b>Stage3 Unlocked ✅</b><br/>
+    {{ stage3_hint }}<br/>
+    <a href="/admin/secret">go admin secret</a>
+  </div>
+  {% endif %}
+
 </table>
 {% endblock %}
